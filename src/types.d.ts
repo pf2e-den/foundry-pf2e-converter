@@ -14,42 +14,10 @@ export enum PackType {
     'Item' = 'Item'
 }
 
-// Actor Types
-export type ActorTemplates = typeof systemTemplate.Actor.templates;
-export type ArmyType = typeof systemTemplate.Actor.army;
-export type CharacterType = typeof systemTemplate.Actor.character;
-export type FamiliarType = typeof systemTemplate.Actor.familiar;
-export type HazardType = typeof systemTemplate.Actor.hazard;
-export type LootType = typeof systemTemplate.Actor.loot;
-export type NPCType = typeof systemTemplate.Actor.npc;
-export type PartyType = typeof systemTemplate.Actor.party;
-export type VehicleType = typeof systemTemplate.Actor.vehicle;
-
-// Item Types
-export type Type = typeof systemTemplate.Item.templates.common & typeof systemTemplate.Actor.army;
-
-
-"action",
-    "affliction",
-    "ancestry",
-    "armor",
-    "background",
-    "backpack",
-    "book",
-    "campaignFeature",
-    "class",
-    "condition",
-    "consumable",
-    "deity",
-    "effect",
-    "equipment",
-    "feat",
-    "heritage",
-    "kit",
-    "lore",
-    "melee",
-    "shield",
-    "spell",
-    "spellcastingEntry",
-    "treasure",
-    "weapon"
+export type ActorType<T> = {
+    _id: string;
+    img: string;
+    system: T;
+    name: string;
+    type: string
+}

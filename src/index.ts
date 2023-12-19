@@ -1,7 +1,11 @@
 import systemsConfig from "../../pf2e-master/static/system.json";
 import systemTemplate from "../../pf2e-master/static/template.json";
 import { existsSync, mkdirSync, readdirSync } from "node:fs";
-import { Pack, PackFolder, PackType, PacksMap } from "./types.d";
+import { ActorType, Pack, PackFolder, PackType, PacksMap } from "./types.d";
+import { generateNPCDoc } from "./mappers/actors/npc";
+import { NPC } from "./models/npc";
+import { generateBackgroundDoc } from "./mappers/items/background";
+import { Background } from "./models/background";
 
 const outputPath = './dist';
 const pf2ePath = './../pf2e-master';
@@ -62,8 +66,41 @@ async function generateActors(baseFolder: string, pack: Pack) {
     const filesNames = readdir(pack.path);
 
     await Promise.all(filesNames.map(async name => {
+
         const data = await Bun.file(`${pf2ePath}/${pack.path}/${name}`).json() as { name: string; type: string };
-        await Bun.write(`${baseFolder}/${data.name}.md`, `Type: ${data.type}`);
+
+        let formattedDoc: string = '';
+
+        switch (data.type) {
+            case 'character':
+
+                break;
+            case 'npc':
+                formattedDoc = generateNPCDoc(data as ActorType<NPC>);
+                break;
+            case 'hazard':
+
+                break;
+            case 'loot':
+
+                break;
+            case 'familiar':
+
+                break;
+            case 'party':
+
+                break;
+            case 'vehicle':
+
+                break;
+            case 'army':
+
+                break;
+            default:
+                break;
+        }
+
+        await Bun.write(`${baseFolder}/${data.name}.md`, formattedDoc);
     }));
 }
 
@@ -72,15 +109,46 @@ async function generateItems(baseFolder: string, pack: Pack) {
 
     await Promise.all(filesNames.map(async name => {
         const data = await Bun.file(`${pf2ePath}/${pack.path}/${name}`).json() as { name: string; type: string };
-        await Bun.write(`${baseFolder}/${data.name}.md`, `Type: ${data.type}`);
+
+        let formattedDoc: string = '';
+
+        switch (data.type) {
+            case 'background':
+                formattedDoc = generateBackgroundDoc(data as ActorType<Background>);
+                break;
+            case 'npc':
+
+                break;
+            case 'hazard':
+
+                break;
+            case 'loot':
+
+                break;
+            case 'familiar':
+
+                break;
+            case 'party':
+
+                break;
+            case 'vehicle':
+
+                break;
+            case 'army':
+
+                break;
+            default:
+                break;
+        }
+        await Bun.write(`${baseFolder}/${data.name}.md`, formattedDoc);
     }));
 }
 
 function readdir(path: string): string[] {
     try {
-        const fileNames = readdirSync(`${pf2ePath}/${path}`);
+        const fileNames = readdirSync(`${pf2ePath}/${path}`, { recursive: true, withFileTypes: true });
 
-        return fileNames;
+        return fileNames.filter(item => !item.isDirectory()).map(item => item.name);
     }
     catch (err) {
         console.error(err);
