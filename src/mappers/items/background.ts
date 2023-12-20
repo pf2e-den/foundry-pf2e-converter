@@ -6,7 +6,6 @@ export function generateBackgroundDoc(data: ActorType<Background>): string {
     return `---
 aliases: ${data.name}
 ---
-
 # ${data.name}
 *${data.system.publication.title}*
 

@@ -6,6 +6,8 @@ import { generateNPCDoc } from "./mappers/actors/npc";
 import { NPC } from "./models/npc";
 import { generateBackgroundDoc } from "./mappers/items/background";
 import { Background } from "./models/background";
+import { generateActionDoc } from "./mappers/items/action";
+import { Action } from "./models/action";
 
 const outputPath = './dist';
 const pf2ePath = './../pf2e-master';
@@ -116,8 +118,8 @@ async function generateItems(baseFolder: string, pack: Pack) {
             case 'background':
                 formattedDoc = generateBackgroundDoc(data as ActorType<Background>);
                 break;
-            case 'npc':
-
+            case 'action':
+                formattedDoc = generateActionDoc(data as ActorType<Action>);
                 break;
             case 'hazard':
 

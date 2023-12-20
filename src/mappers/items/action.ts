@@ -1,9 +1,15 @@
-import systemTemplate from "../../../../pf2e-master/static/template.json";
+import { Action, ActionType } from "../../models/action";
+import { ActorType } from "../../types";
+import { actionIcon } from "../../utils/action-icon";
+import { transformHtml } from "../../utils/transform-html";
 
-const baseTemplate = systemTemplate.Item.action;
-const abc = baseTemplate.templates.reduce((acc, tmpl) => {
-    return {
-        ...acc,
-        ...systemTemplate.Item.templates[tmpl as keyof typeof systemTemplate.Item.templates]
-    };
-}, {})
+export function generateActionDoc(data: ActorType<Action>): string {
+    return `---
+aliases: ${data.name}
+---
+# ${data.name} ${actionIcon(data.system.actionType.value as ActionType, data.system.actions.value)}
+*${data.system.publication.title}*
+
+${transformHtml(data.system.description.value)}
+    `;
+}
