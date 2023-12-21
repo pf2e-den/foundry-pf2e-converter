@@ -9,6 +9,5 @@ aliases: ${data.name}
 # ${data.name}
 *${data.system.publication.title}*
 
-${transformHtml(data.system.description.value)}
-    `;
+${transformHtml(data.system.description.value)}`;
 }

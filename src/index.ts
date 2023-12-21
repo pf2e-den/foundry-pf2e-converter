@@ -8,6 +8,8 @@ import { generateBackgroundDoc } from "./mappers/items/background";
 import { Background } from "./models/background";
 import { generateActionDoc } from "./mappers/items/action";
 import { Action } from "./models/action";
+import { generateAfflictionDoc } from "./mappers/items/affliction";
+import { Affliction } from "./models/affliction";
 
 const outputPath = './dist';
 const pf2ePath = './../pf2e-master';
@@ -121,8 +123,9 @@ async function generateItems(baseFolder: string, pack: Pack) {
             case 'action':
                 formattedDoc = generateActionDoc(data as ActorType<Action>);
                 break;
-            case 'hazard':
-
+            case 'affliction':
+                console.log(data.name);
+                formattedDoc = generateAfflictionDoc(data as ActorType<Affliction>);
                 break;
             case 'loot':
 
